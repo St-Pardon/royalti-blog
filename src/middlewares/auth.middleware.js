@@ -5,6 +5,7 @@ import {
   JWTstrategy,
 } from '../services/passport.service.js';
 import { JWT_SECRET } from '../config/env.config.js';
+import { UserModel } from '../models/users.model';
 
 passport
   .use(
@@ -40,8 +41,8 @@ passport
           const { username, ...data } = req.body;
 
           // checks if user's username or email already exist
-          const checkUsername = await userModel.findOne({ username });
-          const checkMail = await userModel.findOne({ email });
+          const checkUsername = await UserModel.findOne({ username });
+          const checkMail = await UserModel.findOne({ email });
 
           if (checkUsername) {
             return done(null, false, { message: 'Username already exist' });
@@ -70,8 +71,8 @@ passport
       async (email, password, done) => {
         try {
           const user = email.includes('@')
-            ? await userModel.findOne({ email })
-            : await userModel.findOne({ username: email });
+            ? await UserModel.findOne({ email })
+            : await UserModel.findOne({ username: email });
 
           if (!user) {
             return done(null, false, { message: 'User not found' });
