@@ -1,6 +1,12 @@
 import { PostModel } from '../models/posts.models.js';
 
 class PostController {
+  /**
+   * createPost controller for post creation
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async createPost(req, res) {
     try {
       const post = req.body;
@@ -20,21 +26,30 @@ class PostController {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * getAllPost controller for getting all published posts from all users
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async getAllPosts(req, res) {
     // remember to rewrite and add pagination and filters
     try {
       const posts = await PostModel.find({ state: 'published' });
-
-      if (!posts || posts.length === 0) {
-        res.status(404).json({ error: 'No posts found' });
-        return;
-      }
 
       res.status(200).json(posts);
     } catch (error) {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * getPostById controller for getting a single post, published or unpublished post
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async getPostById(req, res) {
     try {
       const { postid } = req.params;
@@ -55,6 +70,13 @@ class PostController {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * getPostByUser controller for getting all post from a single authenticated user
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async getPostByUser(req, res) {
     try {
       const { _id: userid } = req.user;
@@ -71,6 +93,13 @@ class PostController {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * publishPost controller for publishing a post for all users
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async publishPost(req, res) {
     try {
       const { postid } = req.params;
@@ -97,6 +126,13 @@ class PostController {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * unpublishPost controller for unpublishing a post for all users
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async unpublishPost(req, res) {
     try {
       const { postid } = req.params;
@@ -123,6 +159,13 @@ class PostController {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * updatedPost controller for editing or updating a post for an authenticated user
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async updatePost(req, res) {
     try {
       const update = req.body;
@@ -145,6 +188,13 @@ class PostController {
       res.status(500).json({ error: 'An error occured' });
     }
   }
+
+  /**
+   * deletePost controller for deleting a post for a single user
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async deletePost(req, res) {
     try {
       const { postid } = req.params;

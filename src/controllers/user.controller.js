@@ -1,6 +1,12 @@
 import { UserModel } from '../models/users.model.js';
 
 class UserController {
+  /**
+   * getUserById controller for getting a single user details
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async getUserById(req, res) {
     try {
       const { userid: _id } = req.params;
@@ -15,6 +21,13 @@ class UserController {
       res.status(404).send('User not found');
     }
   }
+
+  /**
+   * updateUserInfo controller for updating user information
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async updateUserInfo(req, res) {
     try {
       const { _id } = req.user;
@@ -30,6 +43,13 @@ class UserController {
       res.status(500).send('Internal Server Error');
     }
   }
+
+  /**
+   * deleteUser controller for deleting user profile
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @author Onyedikachi Onu
+   */
   static async deleteUser(req, res) {
     try {
       const { _id } = req.user;

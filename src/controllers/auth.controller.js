@@ -3,6 +3,13 @@ import { JWT_SECRET } from '../config/env.config.js';
 import jwt from 'jsonwebtoken';
 
 class AuthController {
+  /**
+   * signin controller for authenticating and logging in a user
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @param {NextFunction} next - the next funtion to trigger the next middleware
+   * @author Onyedikachi Onu
+   */
   static async signin(req, res, next) {
     passport.authenticate('signin', async (err, user) => {
       try {
@@ -29,6 +36,13 @@ class AuthController {
     })(req, res, next);
   }
 
+  /**
+   * signup controller for creation of a user account
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @param {NextFunction} next - the next funtion to trigger the next middleware
+   * @author Onyedikachi Onu
+   */
   static async signup(req, res, next) {
     passport.authenticate('signup', async (err, user) => {
       if (err) {
