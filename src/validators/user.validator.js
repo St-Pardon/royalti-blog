@@ -11,7 +11,7 @@ export const userValidator = joi.object({
   password: joi
     .string()
     .min(8)
-    .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};:\'",.<>/?]+$'))
+    .pattern(/^(?=.*[0-9!@#$%^&*()_+\-=\[\]{};:'",.<>\/?])/)
     .required()
     .label('Password')
     .messages({

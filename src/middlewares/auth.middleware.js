@@ -5,7 +5,7 @@ import {
   JWTstrategy,
 } from '../services/passport.service.js';
 import { JWT_SECRET } from '../config/env.config.js';
-import { UserModel } from '../models/users.model';
+import { UserModel } from '../models/users.model.js';
 
 passport
   .use(
@@ -52,7 +52,7 @@ passport
             return done(null, false, { message: 'Email already exist' });
           }
 
-          const user = await userModel.create({ ...data, email, password });
+          const user = await UserModel.create({ ...data, username, email, password });
           return done(null, user);
         } catch (error) {
           return done(error);
