@@ -1,4 +1,5 @@
 import { PostModel } from '../models/posts.models.js';
+import { readTime } from '../utils/readtime.utils.js';
 
 class PostController {
   /**
@@ -17,11 +18,14 @@ class PostController {
         return;
       }
 
-      post.userid = userid;
+      post.readingTime = readTime(req.body.body) + ' min'; // set reading time
+      post.userid = userid; // add userid
 
-      await PostModel.create(post);
+      const { _id } = await PostModel.create(post);
 
-      res.status(200).json({ message: 'Post created successfully' });
+      res
+        .status(200)
+        .json({ message: 'Post created successfully', postid: _id });
     } catch (error) {
       res.status(500).json({ error: 'An error occured' });
     }
@@ -34,13 +38,61 @@ class PostController {
    * @author Onyedikachi Onu
    */
   static async getAllPosts(req, res) {
-    // remember to rewrite and add pagination and filters
     try {
-      const posts = await PostModel.find({ state: 'published' });
+      const {
+        author = /[a-z]+/gi,
+        search = '',
+        count = 20,
+        page_no = 0,
+        filter_by = 'published',
+        order_by = 'updatedAt',
+        sort_by = 'ASC',
+        tags = '',
+      } = req.query;
+
+      const tagArray = tags ? tags.split(' ') : [];
+
+      // Construct the query object based on the provided query parameters
+      const query = {
+        author,
+        state: filter_by,
+      };
+
+      // check if tags are provided
+      if (tags) {
+        query.tags = { $in: tagArray };
+      }
+
+      // check is search param are provided
+      if (search) {
+        query.$or = [
+          { title: { $regex: search, $options: 'i' } },
+          { tags: { $in: [search] } },
+          { author: { $regex: search, $options: 'i' } },
+        ];
+      }
+
+      // project data that will be returned and remove uncesssary info
+      const project = {
+        body: 0,
+        createdAt: 0,
+        userid: 0,
+        state: 0,
+        __v: 0,
+      };
+
+      // options for sorting and limiting
+      const options = {
+        limit: parseInt(count),
+        skip: page_no * count,
+        sort: { [order_by]: sort_by.toLowerCase() },
+      };
+
+      const posts = await PostModel.find(query, project, options); // search database with provided infomations
 
       res.status(200).json(posts);
-    } catch (error) {
-      res.status(500).json({ error: 'An error occured' });
+    } catch (err) {
+      res.status(500).json({ msg: 'An error occurred', err });
     }
   }
 
@@ -54,9 +106,10 @@ class PostController {
     try {
       const { postid } = req.params;
 
+      // Retrieves data and update read count by 1
       const post = await PostModel.findOneAndUpdate(
         { _id: postid },
-        { $inc: { read_count: 1 } },
+        { $inc: { readCount: 1 } },
         { new: true }
       );
 
