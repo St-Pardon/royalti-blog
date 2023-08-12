@@ -6,7 +6,6 @@ import { postValidationMiddleware } from '../../middlewares/validator.middleware
 export const PostRoute = Router();
 
 PostRoute.get('/all', PostController.getAllPosts)
-  .get('/:postid', PostController.getPostById)
   .post(
     '/create',
     passport.authenticate('jwt', { session: false }),
@@ -14,10 +13,11 @@ PostRoute.get('/all', PostController.getAllPosts)
     PostController.createPost
   )
   .get(
-    '/user/:userid',
+    '/user',
     passport.authenticate('jwt', { session: false }),
     PostController.getPostByUser
   )
+  .get('/:postid', PostController.getPostById)
   .put(
     '/publish/:postid',
     passport.authenticate('jwt', { session: false }),

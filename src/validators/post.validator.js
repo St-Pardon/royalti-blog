@@ -6,6 +6,7 @@ export const postValidator = joi.object({
   author: joi.string().required(),
   body: joi.string().min(10).required(),
   userid: joi.string().required(),
+  tags: joi.array(),
   createdAt: joi.date().default(Date.now()),
   updatedAt: joi.date().default(Date.now()),
 });
