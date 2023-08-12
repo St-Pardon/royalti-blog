@@ -3,9 +3,9 @@ import { userValidator } from '../validators/user.validator.js';
 
 export const postValidationMiddleware = async (req, res, next) => {
   const post = req.body;
-  const user = req.user;
+  const { _id: userid } = req.user;
 
-  const data = { ...post, ...user };
+  const data = { ...post, userid };
 
   try {
     await postValidator.validateAsync(data);

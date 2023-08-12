@@ -1,3 +1,4 @@
+import { PostModel } from '../models/posts.models.js';
 import { UserModel } from '../models/users.model.js';
 
 class UserController {
@@ -33,7 +34,7 @@ class UserController {
       const { _id } = req.user;
       const update = req.body;
 
-      update.updatedAt = new Date();
+      update.updatedAt = new Date(); //update time user information was modified
 
       const data = await UserModel.findByIdAndUpdate(_id, update, {
         new: true,
@@ -55,6 +56,7 @@ class UserController {
       const { _id } = req.user;
 
       await UserModel.findByIdAndDelete(_id);
+      await PostModel.deleteMany(_id); // deletes all posts associated with this account
       res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
       res.status(500).send('Internal Server Error');
