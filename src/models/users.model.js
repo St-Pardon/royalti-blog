@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 // extract ObjectId from schema
 const { ObjectId } = Schema;
@@ -7,14 +7,14 @@ const { ObjectId } = Schema;
 // declears new schema
 const UserSchema = new Schema({
   id: ObjectId,
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
   username: { type: String, required: true, unique: true },
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  user_type: {
+  userType: {
     type: String,
     default: 'user',
     enum: ['admin', 'user'],

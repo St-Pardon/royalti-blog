@@ -1,9 +1,9 @@
 import joi from 'joi';
 
-export const postValidator = joi.object({
+export const userValidator = joi.object({
   username: joi.string().min(2).max(255).required(),
-  first_name: joi.string().min(2).max(255).required(),
-  last_name: joi.string().min(2).max(255).required(),
+  firstName: joi.string().min(2).max(255).required(),
+  lastName: joi.string().min(2).max(255).required(),
   email: joi.string().email().required().label('Email').messages({
     'string.email': 'Invalid email format',
     'any.required': 'Email is required',
@@ -21,6 +21,6 @@ export const postValidator = joi.object({
       'any.required': 'Password is required',
     }),
   city: joi.string(),
-  created_at: joi.date().default(Date.now()),
-  updated_at: joi.date().default(Date.now()),
+  createdAt: joi.date().default(Date.now()),
+  updatedAt: joi.date().default(Date.now()),
 });

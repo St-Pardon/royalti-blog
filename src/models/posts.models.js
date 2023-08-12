@@ -6,8 +6,8 @@ const { ObjectId } = Schema;
 // init schema
 const PostSchema = new Schema({
   id: ObjectId,
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
   state: {
     type: String,
     default: 'draft',
@@ -17,8 +17,8 @@ const PostSchema = new Schema({
   description: { type: String, required: true },
   author: { type: String, required: true },
   userid: { type: String, required: true },
-  read_count: { type: Number, default: 0 },
-  reading_time: { type: String, default: '1min' },
+  readCount: { type: Number, default: 0 },
+  readingTime: { type: String, default: '1min' },
   body: { type: String },
   tags: Array,
 });
