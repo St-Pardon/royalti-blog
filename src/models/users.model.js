@@ -25,6 +25,9 @@ const UserSchema = new Schema({
 // ensure password is encrypted
 UserSchema.pre('save', async function (next) {
   const hash = await bcrypt.hash(this.password, 10);
+  this.email = this.email.toLowerCase(); // Convert to lowercase
+  this.firstName = this.firstName.toLowerCase(); // Convert to lowercase
+  this.lastName = this.lastName.toLowerCase(); // Convert to lowercase
 
   this.password = hash;
   next();
