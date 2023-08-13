@@ -24,7 +24,7 @@ class PostController {
       const { _id } = await PostModel.create(post);
 
       res
-        .status(200)
+        .status(201)
         .json({ message: 'Post created successfully', postid: _id });
     } catch (error) {
       res.status(500).json({ error: 'An error occured' });

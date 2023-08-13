@@ -55,8 +55,8 @@ class UserController {
     try {
       const { _id } = req.user;
 
+      await PostModel.deleteMany({_id}); // deletes all posts associated with this account
       await UserModel.findByIdAndDelete(_id);
-      await PostModel.deleteMany(_id); // deletes all posts associated with this account
       res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
       res.status(500).send('Internal Server Error');
