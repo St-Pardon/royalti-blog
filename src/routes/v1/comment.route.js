@@ -6,7 +6,7 @@ export const CommentRoute = Router();
 
 CommentRoute.post(
   '/new',
-  passport.authenticate(['jwt', 'anonymous']),
+  passport.authenticate(['jwt', 'anonymous'], { session: false }),
   CommentController.createComment
 )
   .get('/post/:postid', CommentController.getAllCommentForPost)
