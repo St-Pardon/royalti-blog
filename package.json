@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "a simple backend blogging platform where users can write, edit, and publish blog posts.",
   "main": "index.js",
-
   "scripts": {
     "test": "babel-node node_modules/.bin/jest",
     "test:watch": "jest --watch",
-    "dev": "nodemon index.js",
+    "dev": "nodemon --exec babel-node index.js",
     "start": "babel-node index.js"
   },
   "repository": {
@@ -34,6 +33,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
     "passport": "^0.6.0",
+    "passport-anonymous": "^1.0.1",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0"
   },
