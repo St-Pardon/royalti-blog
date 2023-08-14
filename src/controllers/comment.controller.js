@@ -85,7 +85,7 @@ class CommentController {
 
       await CommentModel.deleteOne({ commentid, userid });
 
-      res.status(200).json({ error: 'comment deleted successfully' });
+      res.status(200).json({ message: 'comment deleted successfully' });
     } catch (error) {
       next(error);
     }
