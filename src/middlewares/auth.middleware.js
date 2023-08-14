@@ -3,11 +3,13 @@ import {
   localStrategy,
   ExtractJwt,
   JWTstrategy,
+  AnonymousStrategy,
 } from '../services/passport.service.js';
 import { JWT_SECRET } from '../config/env.config.js';
 import { UserModel } from '../models/users.model.js';
 
 passport
+  .use(new AnonymousStrategy())
   .use(
     new JWTstrategy(
       {
@@ -52,7 +54,13 @@ passport
             return done(null, false, { message: 'Email already exist' });
           }
 
-          const user = await UserModel.create({ ...data, username, email, password });
+          // creates the user account
+          const user = await UserModel.create({
+            ...data,
+            username,
+            email,
+            password,
+          });
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -70,6 +78,7 @@ passport
       },
       async (email, password, done) => {
         try {
+          // check if user is signing in with username or email
           const user = email.includes('@')
             ? await UserModel.findOne({ email })
             : await UserModel.findOne({ username: email });
@@ -78,7 +87,7 @@ passport
             return done(null, false, { message: 'User not found' });
           }
 
-          const validate = await user.isValidPassword(password);
+          const validate = await user.isValidPassword(password); // checks if password is correct
 
           if (!validate) {
             return done(null, false, { message: 'Wrong Password' });

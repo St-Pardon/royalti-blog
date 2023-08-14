@@ -1,3 +1,5 @@
+import { HOSTNAME } from '../config/env.config.js';
+import { CommentModel } from '../models/comments.model.js';
 import { PostModel } from '../models/posts.models.js';
 import { readTime } from '../utils/readtime.utils.js';
 
@@ -113,12 +115,29 @@ class PostController {
         { new: true }
       );
 
+      // retireves comments if any
+      const comments = await CommentModel.find({ postid });
+      let commentLinks;
+
+      if (comments && comments.length > 0) {
+        // transform comments id to link
+        commentLinks = comments.map(
+          (comment) => HOSTNAME + '/api/v1/comment/' + comment._id
+        );
+      }
       if (!post) {
         res.status(404).json({ error: 'Post not found' });
         return;
       }
 
-      res.status(200).json(post);
+      // cast the post and comments to single object
+      const data = {
+        ...post._doc,
+        comments: commentLinks,
+        commentCount: commentLinks.length,
+      };
+
+      res.status(200).json(data);
     } catch (error) {
       res.status(500).json({ error: 'An error occured' });
     }
