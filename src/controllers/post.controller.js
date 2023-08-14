@@ -117,7 +117,7 @@ class PostController {
 
       // retireves comments if any
       const comments = await CommentModel.find({ postid });
-      let commentLinks;
+      let commentLinks = [];
 
       if (comments && comments.length > 0) {
         // transform comments id to link
@@ -181,10 +181,12 @@ class PostController {
         res.status(404).json({ error: 'Not Found' });
         return;
       }
+
       const update = {
         updateAt: new Date(),
         state: 'published',
       };
+
       const post = await PostModel.findOneAndUpdate(
         { _id: postid, userid },
         update,
@@ -192,6 +194,15 @@ class PostController {
           new: true,
         }
       );
+
+      //check if post was updated
+      if (!post) {
+        res.status(404).json({
+          error: 'Post not found',
+          reason: 'you do not have access or post with the postid not found',
+        });
+        return;
+      }
 
       res.status(200).json(post);
     } catch (error) {
@@ -214,10 +225,12 @@ class PostController {
         res.status(404).json({ error: 'Not Found' });
         return;
       }
+
       const update = {
         updateAt: new Date(),
         state: 'draft',
       };
+
       const post = await PostModel.findOneAndUpdate(
         { _id: postid, userid },
         update,
@@ -225,6 +238,15 @@ class PostController {
           new: true,
         }
       );
+
+      //check if post was updated
+      if (!post) {
+        res.status(404).json({
+          error: 'Post not found',
+          reason: 'you do not have access or post with the postid not found',
+        });
+        return;
+      }
 
       res.status(200).json(post);
     } catch (error) {
