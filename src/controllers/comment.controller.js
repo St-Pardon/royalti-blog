@@ -77,6 +77,7 @@ class CommentController {
    * @param {Request} req - request object
    * @param {Response} res - response object
    * @param {NextFunction} next - next function
+   * @author Onyedikachi Onu
    */
   static async deleteComment(req, res, next) {
     try {
